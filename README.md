@@ -4,9 +4,9 @@ UNDER DEVELOPMENT
 
 Adds the following components to the storyteller:accounts-react-materialize package settings page:
 =====
-* <UserChangeName />
-* <UserChangeBio />
-* <UserChangeAvatar /> WIP
+* `<UserChangeName />`
+* `<UserChangeBio />`
+* `<UserChangeAvatar />` WIP
 
 User profile page
 =====
