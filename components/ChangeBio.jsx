@@ -29,10 +29,10 @@ UserChangeBio = React.createClass({
 
     check(bio, String)
 
-    Meteor.call("updateBiography", bio, function(error, result){
+    Meteor.call("updateBiography", bio, (error, result)=>{
       if(error){
         Materialize.toast(error.reason, 5000)
-        console.log("error", error);
+        console.log(error);
       }
       if(result){
         Materialize.toast("Saved!", 3000)

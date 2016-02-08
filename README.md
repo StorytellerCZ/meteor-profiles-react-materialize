@@ -10,6 +10,7 @@ Adds the following components to the storyteller:accounts-react-materialize pack
 
 User profile page
 =====
+`<UserProfile />`
 Creates a user profile page to display all the information to everyone.
 
 WIP: Integrates with other socialize packages to add more interactivity to the profile page.
@@ -21,7 +22,7 @@ Routes
 //user profiles
 FlowRouter.route("/profile", {
   name: "profile-personal",
-  triggersEnter: [usersOnly, checkForProfile],
+  triggersEnter: [usersOnly],
   action: () => {
     ReactLayout.render(MainLayout, { content: <UserProfile user={Meteor.users.findOne(Meteor.userId())} />,
      footer: "long"})
@@ -30,7 +31,6 @@ FlowRouter.route("/profile", {
 
 FlowRouter.route("/profile/:username", {
   name: "profile",
-  triggersEnter: [checkForProfile],
   action: (params, queryParams) => {
    //check if user exists
    if(params.username !== null && ! Meteor.users({username: params.username})){
@@ -51,10 +51,6 @@ FlowRouter.route("/profile/:username", {
     footer: "long"})
  }
 })
-
-function checkForProfile(context){
-  Meteor.call("checkForProfile", context.params.username);
-}
 ```
 
 Loader
