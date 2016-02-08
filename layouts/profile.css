@@ -1,0 +1,27 @@
+/* TODO: .profile-header-bg not on mobile */
+.profile-header-bg{
+  width: auto;
+  height: 250px;
+  /* TODO: allow user to set themselves */
+  background-color: blue;
+  overflow-y: visible;
+  padding-top: 100px;
+}
+
+.profile-picture{
+  width: 128px;
+  height: 128px;
+  font-size: 128px !important;
+}
+
+/* TODO: Improve look to fall in better with the card */
+.profile-picture-box{
+  margin-top: -80px;
+  background-color: #fff;
+  padding: 0.2em;
+  float: left;
+}
+
+.profile-username{
+  margin-top: 0;
+}
