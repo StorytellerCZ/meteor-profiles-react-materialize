@@ -1,3 +1,5 @@
+[![Stories in Ready](https://badge.waffle.io/StorytellerCZ/meteor-profiles-server.png?label=ready&title=Ready)](https://waffle.io/StorytellerCZ/meteor-profiles-server)
+
 Client side for storyteller:profiles-server package in React and Materialize CSS. Build on top of socialize:user-profile package.
 
 UNDER DEVELOPMENT
@@ -12,6 +14,11 @@ User profile page
 =====
 `<UserProfile />`
 Creates a user profile page to display all the information to everyone.
+
+Friendships
+=====
+socialize:friendships is implemented in this package.
+`<UserFriendsRequests />` serves as a dedicated component to view the friendship requests to the user.
 
 WIP: Integrates with other socialize packages to add more interactivity to the profile page.
 
