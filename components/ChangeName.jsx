@@ -49,11 +49,11 @@ UserChangeName = React.createClass({
           <legend></legend>
             <div className="input-field col s12 m6">
               <input type="text" name="given" className="validate" defaultValue={given}></input>
-              <label htmlFor="given">Given Name</label>
+              <label htmlFor="given" className="active">Given Name</label>
             </div>
             <div className="input-field col s12 m6">
               <input type="text" name="family" className="validate" defaultValue={family}></input>
-              <label htmlFor="family">Family Name</label>
+              <label htmlFor="family" className="active">Family Name</label>
             </div>
           <input type="submit" value="Change" className="btn waves-effect"></input>
         </fieldset>

@@ -51,7 +51,7 @@ UserChangeBio = React.createClass({
           <legend>Biography</legend>
             <div className="input-field col s12">
               <textarea id="userBio" name="userBio" className="materialize-textarea" defaultValue={bio}></textarea>
-              <label htmlFor="userBio">A little bit about yourself</label>
+              <label htmlFor="userBio" className="active">A little bit about yourself</label>
               <input type="submit" value="Change" className="btn waves-effect"></input>
             </div>
         </fieldset>
