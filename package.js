@@ -11,7 +11,7 @@ Package.onUse(function(api) {
   api.use(['meteor', 'ecmascript', 'react@0.14.3', 'check', 'accounts-password']);
 
   //other packages in use
-  api.use(['storyteller:profiles-server@0.2.0', 'socialize:user-profile@0.1.5', 'socialize:friendships@0.4.1']);
+  api.use(['storyteller:profiles-server@0.2.0', 'socialize:user-profile@0.1.6', 'socialize:friendships@0.4.2']);
 
   api.addFiles(['components/UserProfile.jsx', 'layouts/profile.css', 'components/ChangeAvatar.jsx', 'components/ChangeBio.jsx', 'components/ChangeName.jsx', 'components/ProfileSettings.jsx', 'components/FriendsRequests.jsx'], "client");
 
