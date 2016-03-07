@@ -1,4 +1,11 @@
+/**
+ * @class component UserProfile
+ * @classdesc User profile page
+ */
 UserProfile = React.createClass({
+  propTypes: {
+    user: React.PropTypes.string //id or username
+  },
   mixins: [ReactMeteorData],
   getMeteorData(){
     const handle = Meteor.subscribe("profileFor", this.props.user)
@@ -129,6 +136,11 @@ UserProfile = React.createClass({
       }
     }
   },
+  /**
+   * Actual content to be displayed when user data are available.
+   * @access private
+   * @returns {jsx}
+   */
   getContent(){
     return (<div className="profile-header-bg">
       <div className="container">
@@ -142,6 +154,7 @@ UserProfile = React.createClass({
           <div className="col s12 m10 l9">
             <div className="card-panel">
               <h4>Stream</h4>
+              <UserFeed userId={this.data.profile.userId} />
             </div>
           </div>
           <div className="col s12 m2 l3">
@@ -154,6 +167,10 @@ UserProfile = React.createClass({
       </div>
     </div>)
   },
+  /**
+   * If user is defined it will show the content. Otherwise it will show a loading message.
+   * @access private
+   */
   render(){
     if(this.data.dataLoaded){
       if(Meteor.userId() !== Meteor.profiles.findOne().userId){
@@ -166,8 +183,7 @@ UserProfile = React.createClass({
       } else {
         return this.getContent()
       }
-    } else {
-      return <div><Loader /></div>
     }
+    return <div><Loader /></div>
   }
 })

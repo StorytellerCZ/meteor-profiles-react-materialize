@@ -1,3 +1,7 @@
+/**
+ * @class component UserChangeBio
+ * @classdesc Change user biography
+ */
 UserChangeBio = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData(){
@@ -23,6 +27,11 @@ UserChangeBio = React.createClass({
     $("#userBio").trigger('autoresize')
     Materialize.updateTextFields()
   },
+  /**
+   * Changes currently logged in user's biography
+   * @access private
+   * @param {event} e Submit event from form
+   */
   changeBio(e){
     e.preventDefault()
     let bio = e.target.userBio.value
@@ -37,8 +46,13 @@ UserChangeBio = React.createClass({
       if(result){
         Materialize.toast("Saved!", 3000)
       }
-    });
+    })
   },
+  /**
+   * Actual content to be displayed when user data are available.
+   * @access private
+   * @returns {jsx}
+   */
   getContent(){
     let bio = null
     if(this.data.userProfile.biography){
@@ -57,6 +71,10 @@ UserChangeBio = React.createClass({
         </fieldset>
       </form>)
   },
+  /**
+   * If user is defined it will show the content. Otherwise it will show a loading message.
+   * @access private
+   */
   render(){
     return (this.data.dataLoaded) ? this.getContent() : <div><Loader /></div>
   }

@@ -1,3 +1,7 @@
+/**
+ * @class component UserFriendsRequests
+ * @classdesc Component to manage friend requests.
+ */
 UserFriendsRequests = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData(){
@@ -8,12 +12,27 @@ UserFriendsRequests = React.createClass({
       requests: Meteor.requests.find({userId: Meteor.userId()}).fetch()
     }
   },
+  /**
+   * Accepts a friend request from a given user.
+   * @access private
+   * @param {string} requestor userId
+   */
   accept(requestor){
     requestor.acceptFriendshipRequest();
   },
+  /**
+   * Deny a request for friendship from the given user.
+   * @access private
+   * @param {string} requestor userId
+   */
   deny(requestor){
     requestor.denyFriendshipRequest()
   },
+  /**
+   * Shows listing and options for friend requests.
+   * @access private
+   * @returns {jsx}
+   */
   request(){
     let requests = this.data.requests
 
@@ -33,6 +52,11 @@ UserFriendsRequests = React.createClass({
       })
     }
   },
+  /**
+   * Actual content to be displayed when user data are available.
+   * @access private
+   * @returns {jsx}
+   */
   getContent(){
     return (<div>
       <h1><a href={FlowRouter.path("/")}><i className="material-icons">arrow_back</i></a> Friendships requests</h1>
@@ -41,6 +65,10 @@ UserFriendsRequests = React.createClass({
       </ul>
     </div>)
   },
+  /**
+   * If user is defined it will show the content. Otherwise it will show a loading message.
+   * @access private
+   */
   render(){
     return (this.data.dataLoaded) ? this.getContent() : <div><Loader /></div>
   }

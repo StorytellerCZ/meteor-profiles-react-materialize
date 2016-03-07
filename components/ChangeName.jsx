@@ -15,9 +15,18 @@ UserChangeName = React.createClass({
       }
     }
   },
-  componentDidMount(){
+  /**
+   * Functions that run every time the component updates
+   * @access private
+   */
+  componentDidUpdate(){
     Materialize.updateTextFields()
   },
+  /**
+   * Changes currently logged in user's name
+   * @access private
+   * @param {event} e Submit event from form
+   */
   changeName(e){
     e.preventDefault()
     let given = e.target.given.value
@@ -37,6 +46,11 @@ UserChangeName = React.createClass({
       }
     });
   },
+  /**
+   * Actual content to be displayed when user data are available.
+   * @access private
+   * @returns {jsx}
+   */
   getContent(){
     let given, family = null
     if(this.data.userProfile.givenName || this.data.userProfile.familyName){
@@ -59,6 +73,10 @@ UserChangeName = React.createClass({
         </fieldset>
       </form>)
   },
+  /**
+   * If user is defined it will show the content. Otherwise it will show a loading message.
+   * @access private
+   */
   render(){
     return (this.data.dataLoaded) ? this.getContent() : <div><Loader /></div>
   }

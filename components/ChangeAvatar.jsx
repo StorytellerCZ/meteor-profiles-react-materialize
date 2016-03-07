@@ -1,3 +1,7 @@
+/**
+ * @class component UserChangeAvatar
+ * @classdesc Changes user avatar. NOT IMPLEMENTED
+ */
 UserChangeAvatar = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData(){
@@ -32,7 +36,11 @@ UserChangeAvatar = React.createClass({
     e.preventDefault()
     //upload avatar from hard drive
   },
-
+  /**
+   * Actual content to be displayed when user data are available.
+   * @access private
+   * @returns {jsx}
+   */
   getContent(){
     let avatarSrc = null
     if(this.data.userProfile){
@@ -62,6 +70,10 @@ UserChangeAvatar = React.createClass({
         </fieldset>
       </form>)
   },
+  /**
+   * If user is defined it will show the content. Otherwise it will show a loading message.
+   * @access private
+   */
   render(){
     return (this.data.dataLoaded) ? this.getContent() : <div><Loader /></div>
   }

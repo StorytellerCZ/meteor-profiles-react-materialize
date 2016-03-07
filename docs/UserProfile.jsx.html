@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: UserProfile.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: UserProfile.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @class component UserProfile
+ * @classdesc User profile page
+ */
+UserProfile = React.createClass({
+  propTypes: {
+    user: React.PropTypes.string //id or username
+  },
+  mixins: [ReactMeteorData],
+  getMeteorData(){
+    const handle = Meteor.subscribe("profileFor", this.props.user)
+    let data = {
+      dataLoaded: handle.ready(),
+      profile: Meteor.profiles.findOne()
+    }
+
+    //if profile not found redirect to 404
+    if(handle.ready() &amp;&amp; Meteor.profiles.findOne() === undefined){
+      console.log('User not found');
+      //TODO show 404 not main page
+      //FlowRouter.go('/')
+    }
+
+    if(handle.ready()){
+      if(Meteor.userId() !== Meteor.profiles.findOne().userId){
+        Meteor.subscribe("getUser", this.props.user)
+        Meteor.subscribe("friends")
+        Meteor.subscribe("friendRequests")
+        Meteor.subscribe("outgoingFriendRequests")
+
+        data.currentUser = Meteor.users.findOne({_id: Meteor.userId()})
+        data.profileUser = Meteor.users.findOne({$or:[{_id:this.props.user}, {username:this.props.user}]})
+        data.currentFriends = Meteor.friends.find().fetch()
+        data.currentRequests = Meteor.requests.find().fetch()
+      }
+    }
+    return data
+  },
+  showAvatar(){
+    //show user avatar
+    if(false){
+      return (&lt;img className="profile-picture responsive-img" src="/images/avatars/{this.data.profile.avatar}" />)
+    } else {
+      return (&lt;i className="material-icons profile-picture">account_circle&lt;/i>)
+    }
+  },
+  //requests friendship
+  requestFriendship(e){
+    e.preventDefault()
+    this.data.profileUser.requestFriendship()
+  },
+  unfriend(e){
+    e.preventDefault()
+    this.data.profileUser.unfriend()
+  },
+  block(e){
+    e.preventDefault()
+    this.data.profileUser.block()
+  },
+  unBlockUser(e){
+    e.preventDefault()
+    this.data.profileUser.unblock()
+  },
+  reportUser(e){
+    //TODO
+    e.preventDefault()
+  },
+  acceptFriendshipRequest(e){
+    e.preventDefault()
+    this.data.profileUser.acceptFriendshipRequest()
+  },
+  denyFriendshipRequest(e){
+    e.preventDefault()
+    this.data.profileUser.denyFriendshipRequest()
+  },
+  cancelFriendshipRequest(e){
+    e.preventDefault()
+    this.data.profileUser.cancelFriendshipRequest()
+  },
+  //figure out which button to show
+  friendshipOption(){
+    let currentUser = this.data.currentUser
+    let profileUser = this.data.profileUser
+
+    //if friend request pending show cancel request button
+    //TODO wait if PR #18 accepted https://github.com/copleykj/socialize-friendships/pull/18
+    //else include this function into the server file
+    /*
+    if(currentUser.hasRequested(profileUser)){
+      return &lt;a href="#!" onClick={this.cancelFriendshipRequest} className="btn waves-effect">Cancel friendship request&lt;/a>
+    }*/
+    if(profileUser.hasRequestFrom(currentUser)){
+      return &lt;a href="#!" onClick={this.cancelFriendshipRequest} className="btn waves-effect">Cancel friendship request&lt;/a>
+    }
+
+    //if friendship request from this user show accept or deny button
+    if(currentUser.hasRequestFrom(profileUser)){
+      return &lt;span>&lt;a href="#!" onClick={this.acceptFriendshipRequest} className="btn waves-effect">Accept friendship request&lt;/a>&lt;a href="#!" onClick={this.denyFriendshipRequest} className="btn waves-effect">Deny friendship&lt;/a>&lt;/span>
+    }
+
+    //if friends show unfriend button
+    if(currentUser.isFriendsWith(profileUser)){
+      return &lt;a href="#!" onClick={this.unfriend} className="btn waves-effect">Unfriend&lt;/a>
+    } else {
+      return &lt;a href="#!" onClick={this.requestFriendship} className="btn waves-effect">Add to friends&lt;/a>
+    }
+  },
+  //figure which button to show
+  blockOption(){
+    let currentUser = this.data.currentUser
+    let profileUser = this.data.profileUser
+
+    //if friends don't display anything
+    if(! currentUser.isFriendsWith(profileUser)){
+      //has user been blocked by the current user?
+      if(false){
+        //show unblock button
+        return &lt;a href="#!" onClick={this.unblock} className="btn waves-effect">Unblock&lt;/a>
+      } else {
+        //show block button
+        return &lt;a href="#!" onClick={this.block} className="btn waves-effect">Block&lt;/a>
+      }
+    }
+  },
+  addActions(){
+    //no actions if user not logged in
+    if(Meteor.userId()){
+      //not the same user
+      if(Meteor.userId() !== this.data.profile.userId){
+        return (&lt;div className="card-action">
+          &lt;a href="/pm/create?to={this.data.profile.userId}" className="btn waves-effect">Send a message&lt;/a>
+          {this.friendshipOption()}
+          {this.blockOption()}
+          &lt;a href="#!" onClick={this.reportUser} className="btn waves-effect">Report&lt;/a>
+        &lt;/div>)
+      }
+    }
+  },
+  /**
+   * Actual content to be displayed when user data are available.
+   * @access private
+   * @returns {jsx}
+   */
+  getContent(){
+    return (&lt;div className="profile-header-bg">
+      &lt;div className="container">
+        &lt;section className="card-panel">
+            &lt;span className="profile-picture-box">{this.showAvatar()}&lt;/span>
+            &lt;h1 className="profile-username">{this.data.profile.username}&lt;/h1>
+            &lt;hr />
+            {this.addActions()}
+        &lt;/section>
+        &lt;section className="row">
+          &lt;div className="col s12 m10 l9">
+            &lt;div className="card-panel">
+              &lt;h4>Stream&lt;/h4>
+              &lt;UserFeed userId={this.data.profile.userId} />
+            &lt;/div>
+          &lt;/div>
+          &lt;div className="col s12 m2 l3">
+            &lt;div className="card-panel">
+              &lt;h5>{this.data.profile.givenName} {this.data.profile.familyName}&lt;/h5>
+              &lt;p>{this.data.profile.biography}&lt;/p>
+            &lt;/div>
+          &lt;/div>
+        &lt;/section>
+      &lt;/div>
+    &lt;/div>)
+  },
+  /**
+   * If user is defined it will show the content. Otherwise it will show a loading message.
+   * @access private
+   */
+  render(){
+    if(this.data.dataLoaded){
+      if(Meteor.userId() !== Meteor.profiles.findOne().userId){
+        //make sure that all the data is loaded so we don't get any strange errors
+        if(this.data.currentUser &amp;&amp; this.data.profileUser &amp;&amp; this.data.currentFriends &amp;&amp; this.data.currentRequests){
+          return this.getContent()
+        } else {
+          return &lt;div>&lt;Loader />&lt;/div>
+        }
+      } else {
+        return this.getContent()
+      }
+    }
+    return &lt;div>&lt;Loader />&lt;/div>
+  }
+})
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="component%2520NewFeedPost.html">component NewFeedPost</a></li><li><a href="component%2520UserChangeAvatar.html">component UserChangeAvatar</a></li><li><a href="component%2520UserChangeBio.html">component UserChangeBio</a></li><li><a href="component%2520UserFeed.html">component UserFeed</a></li><li><a href="component%2520UserFriendsRequests.html">component UserFriendsRequests</a></li><li><a href="component%2520UserProfile.html">component UserProfile</a></li><li><a href="component%2520userProfileSettings.html">component userProfileSettings</a></li></ul><h3>Global</h3><ul><li><a href="global.html#colorSelect">colorSelect</a></li><li><a href="global.html#imageSelect">imageSelect</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.0</a> on Mon Mar 07 2016 18:10:30 GMT-0500 (EST)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

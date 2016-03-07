@@ -1,3 +1,7 @@
+/**
+ * @class component userProfileSettings
+ * @classdesc Settings page to set things for the profile page. NOT IMPLEMENTED
+ */
 userProfileSettings = React.createClass({
   mixins: [ReactMeteorData],
   getMeteorData(){
@@ -26,6 +30,10 @@ userProfileSettings = React.createClass({
       })
     }
   },
+  /**
+   * Changes the type of the background between color and bg image
+   * @access private
+   */
   changeBgType(){
     if(this.state.bgType === "color"){
       this.setState({
@@ -39,6 +47,7 @@ userProfileSettings = React.createClass({
   },
   /**
    * Lets user select a color
+   * @access private
    * TODO: Select from material design colors or any color
    */
   colorSelect(){
@@ -47,6 +56,11 @@ userProfileSettings = React.createClass({
         <label htmlFor="colorSelect">Color code</label>
       </div>)
   },
+  /**
+   * Let's user select an image for a background
+   * @access private
+   * TODO
+   */
   imageSelect(){
     return (<div>
         <input name="imageUrl" type="url" className="validate" />
@@ -56,6 +70,11 @@ userProfileSettings = React.createClass({
   saveSettings(e){
     e.preventDefault()
   },
+  /**
+   * Actual content to be displayed when user data are available.
+   * @access private
+   * @returns {jsx}
+   */
   getContent(){
     return (<section className="section">
       <div className="row">
@@ -90,6 +109,10 @@ userProfileSettings = React.createClass({
       </div>
     </section>)
   },
+  /**
+   * If user is defined it will show the content. Otherwise it will show a loading message.
+   * @access private
+   */
   render(){
     return (this.data.dataReady) ? this.getContent() : <div>Loading...</div>
   }
