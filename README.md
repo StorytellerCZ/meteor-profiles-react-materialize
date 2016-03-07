@@ -1,30 +1,36 @@
 [![Stories in Ready](https://badge.waffle.io/StorytellerCZ/meteor-profiles-server.png?label=ready&title=Ready)](https://waffle.io/StorytellerCZ/meteor-profiles-server)
 
+# profiles-react-materialize
+
 Client side for storyteller:profiles-server package in React and Materialize CSS. Build on top of socialize:user-profile package.
 
 UNDER DEVELOPMENT
 
-Adds the following components to the storyteller:accounts-react-materialize package settings page:
-=====
-* `<UserChangeName />`
-* `<UserChangeBio />`
-* `<UserChangeAvatar />` WIP
+## Settings components
 
-User profile page
-=====
+*   `<UserChangeName />`
+*   `<UserChangeBio />`
+*   `<UserChangeAvatar />` WIP
+
+## User profile page
+
 `<UserProfile />`
 Creates a user profile page to display all the information to everyone.
 
-Friendships
-=====
-socialize:friendships is implemented in this package.
+## Friendships
+
+`socialize:friendships` is implemented in this package.
 `<UserFriendsRequests />` serves as a dedicated component to view the friendship requests to the user.
 
-WIP: Integrates with other socialize packages to add more interactivity to the profile page.
 
+## Feed
+`socialize:feed` is implemented in this package to show user a Facebook like feed on their profile page
 
-Routes
-=====
+*   `<UserFeed userId="userId" />`
+*   `<NewFeedPost />`
+
+## Routes
+
 ```js
 //user profiles
 FlowRouter.route("/profile", {
