@@ -17,10 +17,10 @@ UserFeed = React.createClass({
     let results
 
     if(this.props.userId){
-      handle = Meteor.subscribe("posts", this.props.userId, {sort: {date: -1}, limit: this.state.postLimit})
+      handle = Meteor.subscribe("posts", this.props.userId, {limit: this.state.postLimit})
       results = Meteor.posts.find({posterId: this.props.userId}, {sort: {date: -1}}).fetch()
     } else {
-      handle = Meteor.subscribe("feed", {sort: {date: -1}, limit: this.state.postLimit})
+      handle = Meteor.subscribe("feed", {limit: this.state.postLimit})
       results = Meteor.posts.find({}, {sort: {date: -1}}).fetch()
     }
 

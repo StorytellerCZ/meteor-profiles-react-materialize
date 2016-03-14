@@ -1,5 +1,12 @@
 # Changelog
 
+## v0.3.1 - 2016/3/14
+
+### Updates
+
+*   Updated dependencies
+*   Needless sort in feed subscribe function removed
+
 ## v0.3.0 - 2016/3/07
 
 ### New
