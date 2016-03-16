@@ -1,6 +1,6 @@
 Package.describe({
   name: 'storyteller:profiles-react-materialize',
-  version: '0.3.1',
+  version: '0.3.3',
   summary: 'Profiles for your users',
   git: 'https://github.com/StorytellerCZ/meteor-profiles-react-materialize.git',
   documentation: 'README.md'
@@ -12,12 +12,12 @@ Package.onUse(function(api) {
 
   //other packages in use
   api.use([
-    'storyteller:profiles-server@0.3.1',
+    'storyteller:profiles-server@0.3.3',
     'socialize:user-profile@0.2.0',
     'socialize:friendships@0.4.3',
     'socialize:feed@0.2.3',
     'momentjs:moment@2.12.0',
-    'djedi:sanitize-html-client@1.11.2'
+    'djedi:sanitize-html-client@1.11.3'
   ]);
 
   api.addFiles([
